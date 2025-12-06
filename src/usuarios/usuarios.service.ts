@@ -44,14 +44,14 @@ export class UsuariosService {
   }
 
   async update(id: number, updateUsuarioDto: UpdateUsuarioDto): Promise<Usuario> {
-    const usuario = await this.findOne(id);
+    await this.findOne(id);
     
     if (updateUsuarioDto.senha) {
       updateUsuarioDto.senha = await bcrypt.hash(updateUsuarioDto.senha, 10);
     }
 
-    Object.assign(usuario, updateUsuarioDto);
-    return await this.usuarioRepository.save(usuario);
+    await this.usuarioRepository.update(id, updateUsuarioDto);
+    return await this.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
