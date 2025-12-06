@@ -67,7 +67,7 @@ export class AuthController {
   }
 
   @Get('me')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ 
     summary: 'Obter usuário atual', 
     description: 'Retorna os dados do usuário autenticado pelo token no cookie' 
