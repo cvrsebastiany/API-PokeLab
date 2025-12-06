@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Usuario } from '../../usuarios/entities/usuario.entity';
 
 @Entity('pokemons')
 export class Pokemon {
@@ -14,27 +15,32 @@ export class Pokemon {
   @Column()
   type: string;
 
-  @Column()
-  level: number;
+  @Column({ nullable: true })
+  level?: number;
 
   @Column()
   hp: number;
 
-  @Column()
-  attack: number;
+  @Column({ nullable: true })
+  attack?: number;
+
+  @Column({ nullable: true })
+  defense?: number;
+
+  @ManyToOne(() => Usuario, { eager: true })
+  @JoinColumn({ name: 'trainerId' })
+  trainer: Usuario;
 
   @Column()
-  defense: number;
-
-  @Column()
-  trainer: string;
+  trainerId: number;
 
   @Column({
     type: 'enum',
     enum: ['healthy', 'sick', 'in-treatment', 'recovered'],
     default: 'healthy',
+    nullable: true,
   })
-  status: 'healthy' | 'sick' | 'in-treatment' | 'recovered';
+  status?: 'healthy' | 'sick' | 'in-treatment' | 'recovered';
 
   @Column({ type: 'timestamp', nullable: true })
   lastCheckup?: Date;

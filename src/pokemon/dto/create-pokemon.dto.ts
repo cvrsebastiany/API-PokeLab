@@ -10,27 +10,27 @@ export class CreatePokemonDto {
   @ApiProperty({ example: 'Electric', description: 'Tipo do Pokémon' })
   type: string;
 
-  @ApiProperty({ example: 25, description: 'Nível do Pokémon' })
-  level: number;
+  @ApiPropertyOptional({ example: 25, description: 'Nível do Pokémon' })
+  level?: number;
 
   @ApiProperty({ example: 85, description: 'Pontos de vida (HP)' })
   hp: number;
 
-  @ApiProperty({ example: 75, description: 'Pontos de ataque' })
-  attack: number;
+  @ApiPropertyOptional({ example: 75, description: 'Pontos de ataque' })
+  attack?: number;
 
-  @ApiProperty({ example: 60, description: 'Pontos de defesa' })
-  defense: number;
+  @ApiPropertyOptional({ example: 60, description: 'Pontos de defesa' })
+  defense?: number;
 
-  @ApiProperty({ example: 'Ash Ketchum', description: 'Nome do treinador' })
-  trainer: string;
+  @ApiProperty({ example: 1, description: 'ID do treinador (usuário)' })
+  trainerId: number;
 
-  @ApiProperty({ 
+  @ApiPropertyOptional({ 
     enum: ['healthy', 'sick', 'in-treatment', 'recovered'],
     example: 'healthy',
     description: 'Status de saúde do Pokémon'
   })
-  status: 'healthy' | 'sick' | 'in-treatment' | 'recovered';
+  status?: 'healthy' | 'sick' | 'in-treatment' | 'recovered';
 
   @ApiPropertyOptional({ example: '2024-12-01T00:00:00Z', description: 'Data do último checkup' })
   lastCheckup?: Date;
