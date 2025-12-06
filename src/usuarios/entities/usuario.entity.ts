@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import { Perfil } from '../../perfis/entities/perfil.entity';
 
 @Entity('usuarios')
@@ -13,6 +14,7 @@ export class Usuario {
   nome: string;
 
   @Column()
+  @Exclude()
   senha: string;
 
   @Column({ nullable: true })
