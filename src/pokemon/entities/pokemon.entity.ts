@@ -18,8 +18,8 @@ export class Pokemon {
   @Column({ nullable: true })
   level?: number;
 
-  @Column()
-  hp: number;
+  @Column({ nullable: true })
+  hp?: number;
 
   @Column({ nullable: true })
   attack?: number;

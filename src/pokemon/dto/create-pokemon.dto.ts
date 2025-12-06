@@ -13,8 +13,8 @@ export class CreatePokemonDto {
   @ApiPropertyOptional({ example: 25, description: 'Nível do Pokémon' })
   level?: number;
 
-  @ApiProperty({ example: 85, description: 'Pontos de vida (HP)' })
-  hp: number;
+  @ApiPropertyOptional({ example: 85, description: 'Pontos de vida (HP)' })
+  hp?: number;
 
   @ApiPropertyOptional({ example: 75, description: 'Pontos de ataque' })
   attack?: number;
