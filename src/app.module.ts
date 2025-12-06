@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { PokemonModule } from './pokemon/pokemon.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { PerfisModule } from './perfis/perfis.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { PerfisModule } from './perfis/perfis.module';
     PokemonModule,
     UsuariosModule,
     PerfisModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

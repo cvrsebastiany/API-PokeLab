@@ -27,9 +27,11 @@ async function bootstrap() {
     .setTitle('PokeLab API')
     .setDescription('API para gerenciamento de clínica Pokémon - Sistema de gestão de saúde e tratamento de Pokémon')
     .setVersion('1.0')
+    .addTag('auth', 'Autenticação de usuários')
     .addTag('pokemon', 'Operações relacionadas aos Pokémon')
     .addTag('usuarios', 'Operações relacionadas aos usuários')
     .addTag('perfis', 'Operações relacionadas aos perfis de usuário')
+    .addBearerAuth()
     .build();
   
   const document = SwaggerModule.createDocument(app, config);
