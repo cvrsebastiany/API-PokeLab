@@ -5,9 +5,13 @@ import { runSeeds } from './database/seeder';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  
+  // Enable cookie parser
+  app.use(cookieParser());
   
   // Set global prefix for all routes
   app.setGlobalPrefix('pokelab-api');
@@ -17,9 +21,12 @@ async function bootstrap() {
   
   // Enable CORS for the React frontend
   app.enableCors({
-    origin: 'http://localhost:5173', // Vite default port
+    origin: [
+      'http://localhost:5173', // Vite default port (development)
+      'https://saudedigital.ufcspa.edu.br', // Production frontend
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
+    credentials: true, // Important: allow cookies
   });
 
   // Swagger/OpenAPI configuration

@@ -1,7 +1,9 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Controller, Post, Body, HttpCode, HttpStatus, Res, Get, UseGuards, Request } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import type { Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -12,7 +14,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ 
     summary: 'Login de usuário', 
-    description: 'Autentica um usuário e retorna um token JWT' 
+    description: 'Autentica um usuário e retorna um token JWT em cookie httpOnly' 
   })
   @ApiResponse({ 
     status: 200, 
@@ -20,7 +22,6 @@ export class AuthController {
     schema: {
       type: 'object',
       properties: {
-        access_token: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
         usuario: {
           type: 'object',
           properties: {
@@ -36,7 +37,47 @@ export class AuthController {
     },
   })
   @ApiResponse({ status: 401, description: 'Email ou senha inválidos' })
-  login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
+    const result = await this.authService.login(loginDto);
+    
+    // Set httpOnly cookie with the token
+    res.cookie('access_token', result.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // true in production (HTTPS)
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    });
+
+    // Return only user data (not the token)
+    return {
+      usuario: result.usuario,
+    };
+  }
+
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ 
+    summary: 'Logout de usuário', 
+    description: 'Remove o cookie de autenticação' 
+  })
+  @ApiResponse({ status: 200, description: 'Logout realizado com sucesso' })
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('access_token');
+    return { message: 'Logout realizado com sucesso' };
+  }
+
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ 
+    summary: 'Obter usuário atual', 
+    description: 'Retorna os dados do usuário autenticado pelo token no cookie' 
+  })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Dados do usuário retornados com sucesso',
+  })
+  @ApiResponse({ status: 401, description: 'Não autenticado' })
+  async getMe(@Request() req) {
+    return this.authService.getUserById(req.user.sub);
   }
 }
