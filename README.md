@@ -12,6 +12,31 @@ This is a RESTful API that provides endpoints for managing Pokemon clinic record
 - Pokemon health status management
 - Trainer information tracking
 - CORS enabled for React frontend integration
+- PostgreSQL database with TypeORM
+- Automatic database seeding in development mode
+
+## Prerequisites
+
+- Node.js (v16 or higher)
+- PostgreSQL (v12 or higher)
+
+## Database Setup
+
+1. Create a PostgreSQL database:
+
+```bash
+createdb pokelab
+```
+
+2. Configure database credentials in `.env` file:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+DB_DATABASE=pokelab
+```
 
 ## API Endpoints
 

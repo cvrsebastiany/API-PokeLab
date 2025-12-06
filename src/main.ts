@@ -1,5 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { DataSource } from 'typeorm';
+import { runSeeds } from './database/seeder';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +12,12 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
+
+  // Run database seeds in development
+  if (process.env.NODE_ENV === 'development') {
+    const dataSource = app.get(DataSource);
+    await runSeeds(dataSource);
+  }
   
   await app.listen(process.env.PORT ?? 3004);
 }
