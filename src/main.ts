@@ -7,6 +7,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
+  // Set global prefix for all routes
+  app.setGlobalPrefix('pokelab-api');
+  
   // Enable CORS for the React frontend
   app.enableCors({
     origin: 'http://localhost:5173', // Vite default port
@@ -25,7 +28,7 @@ async function bootstrap() {
     .build();
   
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
+  SwaggerModule.setup('pokelab-api/docs', app, document);
 
   // Run database seeds in development
   if (process.env.NODE_ENV === 'development') {
@@ -35,6 +38,6 @@ async function bootstrap() {
   
   await app.listen(process.env.PORT ?? 3004);
   console.log(`Application is running on: http://localhost:${process.env.PORT ?? 3004}`);
-  console.log(`Swagger documentation available at: http://localhost:${process.env.PORT ?? 3004}/api/docs`);
+  console.log(`Swagger documentation available at: http://localhost:${process.env.PORT ?? 3004}/pokelab-api/docs`);
 }
 bootstrap();
