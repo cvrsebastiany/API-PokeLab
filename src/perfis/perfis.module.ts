@@ -1,0 +1,13 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PerfisService } from './perfis.service';
+import { PerfisController } from './perfis.controller';
+import { Perfil } from './entities/perfil.entity';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([Perfil])],
+  controllers: [PerfisController],
+  providers: [PerfisService],
+  exports: [PerfisService],
+})
+export class PerfisModule {}

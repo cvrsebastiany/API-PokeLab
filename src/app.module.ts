@@ -4,6 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PokemonModule } from './pokemon/pokemon.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { PerfisModule } from './perfis/perfis.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { PokemonModule } from './pokemon/pokemon.module';
       synchronize: process.env.NODE_ENV === 'development',
     }),
     PokemonModule,
+    UsuariosModule,
+    PerfisModule,
   ],
   controllers: [AppController],
   providers: [AppService],
