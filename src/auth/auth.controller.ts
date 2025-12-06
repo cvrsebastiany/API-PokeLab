@@ -43,9 +43,9 @@ export class AuthController {
     // Set httpOnly cookie with the token
     res.cookie('access_token', result.access_token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // true in production (HTTPS)
-      sameSite: 'strict',
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      secure: process.env.COOKIE_SECURE === 'true',
+      sameSite: (process.env.COOKIE_SAMESITE || 'lax') as 'strict' | 'lax' | 'none',
+      maxAge: parseInt(process.env.COOKIE_MAX_AGE || '86400000'),
     });
 
     // Return only user data (not the token)
