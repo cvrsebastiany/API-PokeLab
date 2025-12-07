@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { ExamesModule } from './exames/exames.module';
 import { ExamesUrinaModule } from './exames-urina/exames-urina.module';
 import { ExamesBioquimicaModule } from './exames-bioquimica/exames-bioquimica.module';
+import { TreatmentUpdatesModule } from './treatment-updates/treatment-updates.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ExamesBioquimicaModule } from './exames-bioquimica/exames-bioquimica.mo
     ExamesModule,
     ExamesUrinaModule,
     ExamesBioquimicaModule,
+    TreatmentUpdatesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
