@@ -8,14 +8,17 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { PerfisService } from './perfis.service';
 import { CreatePerfilDto } from './dto/create-perfi.dto';
 import { UpdatePerfilDto } from './dto/update-perfi.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('perfis')
 @Controller('perfis')
+@UseGuards(JwtAuthGuard)
 export class PerfisController {
   constructor(private readonly perfisService: PerfisService) {}
 

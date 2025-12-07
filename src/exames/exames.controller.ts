@@ -9,14 +9,17 @@ import {
   HttpCode,
   HttpStatus,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { ExamesService } from './exames.service';
 import { CreateExameDto } from './dto/create-exame.dto';
 import { UpdateExameDto } from './dto/update-exame.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('exames')
 @Controller('exames')
+@UseGuards(JwtAuthGuard)
 export class ExamesController {
   constructor(private readonly examesService: ExamesService) {}
 

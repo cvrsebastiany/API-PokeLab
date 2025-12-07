@@ -9,14 +9,17 @@ import {
   HttpCode,
   HttpStatus,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { ExamesUrinaService } from './exames-urina.service';
 import { CreateExameUrinaDto } from './dto/create-exame-urina.dto';
 import { UpdateExameUrinaDto } from './dto/update-exame-urina.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('exames-urina')
 @Controller('exames-urina')
+@UseGuards(JwtAuthGuard)
 export class ExamesUrinaController {
   constructor(private readonly examesUrinaService: ExamesUrinaService) {}
 

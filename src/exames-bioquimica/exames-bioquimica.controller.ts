@@ -9,14 +9,17 @@ import {
   HttpCode,
   HttpStatus,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { ExamesBioquimicaService } from './exames-bioquimica.service';
 import { CreateExameBioquimicaDto } from './dto/create-exame-bioquimica.dto';
 import { UpdateExameBioquimicaDto } from './dto/update-exame-bioquimica.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('exames-bioquimica')
 @Controller('exames-bioquimica')
+@UseGuards(JwtAuthGuard)
 export class ExamesBioquimicaController {
   constructor(private readonly examesBioquimicaService: ExamesBioquimicaService) {}
 
