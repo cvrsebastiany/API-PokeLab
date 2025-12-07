@@ -12,7 +12,10 @@ export class PokemonService {
     private readonly pokemonRepository: Repository<Pokemon>,
   ) {}
 
-  async findAll(): Promise<Pokemon[]> {
+  async findAll(trainerId?: number): Promise<Pokemon[]> {
+    if (trainerId) {
+      return await this.pokemonRepository.find({ where: { trainerId } });
+    }
     return await this.pokemonRepository.find();
   }
 

@@ -8,8 +8,9 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { PokemonService } from './pokemon.service';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
@@ -21,9 +22,10 @@ export class PokemonController {
 
   @Get()
   @ApiOperation({ summary: 'Listar todos os Pokémon', description: 'Retorna uma lista com todos os Pokémon cadastrados' })
+  @ApiQuery({ name: 'trainerId', required: false, description: 'ID do treinador para filtrar Pokémon', type: Number })
   @ApiResponse({ status: 200, description: 'Lista de Pokémon retornada com sucesso' })
-  findAll() {
-    return this.pokemonService.findAll();
+  findAll(@Query('trainerId') trainerId?: string) {
+    return this.pokemonService.findAll(trainerId ? +trainerId : undefined);
   }
 
   @Get(':id')
