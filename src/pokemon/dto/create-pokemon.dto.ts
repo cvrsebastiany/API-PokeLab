@@ -37,4 +37,7 @@ export class CreatePokemonDto {
 
   @ApiPropertyOptional({ example: 'Regular checkup completed', description: 'Notas sobre o Pokémon' })
   notes?: string;
+
+  @ApiPropertyOptional({ example: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png', description: 'URL da imagem do Pokémon' })
+  imageUrl?: string;
 }

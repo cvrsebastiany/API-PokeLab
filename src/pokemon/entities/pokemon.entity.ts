@@ -48,6 +48,9 @@ export class Pokemon {
   @Column({ type: 'text', nullable: true })
   notes?: string;
 
+  @Column({ type: 'varchar', nullable: true, length: 500 })
+  imageUrl?: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
