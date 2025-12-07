@@ -23,9 +23,16 @@ export class ExamesController {
   @Get()
   @ApiOperation({ summary: 'Listar todos os exames', description: 'Retorna uma lista com todos os exames cadastrados' })
   @ApiQuery({ name: 'pokemonId', required: false, description: 'ID do Pokémon para filtrar exames', type: Number })
+  @ApiQuery({ name: 'status', required: false, description: 'Status do exame para filtrar', enum: ['Pendente', 'Em andamento', 'Concluído'] })
   @ApiResponse({ status: 200, description: 'Lista de exames retornada com sucesso' })
-  findAll(@Query('pokemonId') pokemonId?: string) {
-    return this.examesService.findAll(pokemonId ? +pokemonId : undefined);
+  findAll(
+    @Query('pokemonId') pokemonId?: string,
+    @Query('status') status?: 'Pendente' | 'Em andamento' | 'Concluído',
+  ) {
+    return this.examesService.findAll(
+      pokemonId ? +pokemonId : undefined,
+      status,
+    );
   }
 
   @Get(':id')

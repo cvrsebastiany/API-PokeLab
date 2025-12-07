@@ -17,14 +17,19 @@ export class ExamesService {
     return this.examesRepository.save(exame);
   }
 
-  findAll(pokemonId?: number) {
+  findAll(pokemonId?: number, status?: 'Pendente' | 'Em andamento' | 'Concluído') {
+    const where: any = {};
+    
     if (pokemonId) {
-      return this.examesRepository.find({
-        where: { pokemonId },
-        order: { createdAt: 'DESC' },
-      });
+      where.pokemonId = pokemonId;
     }
+    
+    if (status) {
+      where.status = status;
+    }
+    
     return this.examesRepository.find({
+      where: Object.keys(where).length > 0 ? where : undefined,
       order: { createdAt: 'DESC' },
     });
   }
