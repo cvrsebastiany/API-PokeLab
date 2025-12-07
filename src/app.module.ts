@@ -8,6 +8,8 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { PerfisModule } from './perfis/perfis.module';
 import { AuthModule } from './auth/auth.module';
 import { ExamesModule } from './exames/exames.module';
+import { ExamesUrinaModule } from './exames-urina/exames-urina.module';
+import { ExamesBioquimicaModule } from './exames-bioquimica/exames-bioquimica.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { ExamesModule } from './exames/exames.module';
     PerfisModule,
     AuthModule,
     ExamesModule,
+    ExamesUrinaModule,
+    ExamesBioquimicaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
