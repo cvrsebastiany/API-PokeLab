@@ -1,15 +1,17 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsNumber, IsString, Min, Max, MaxLength } from 'class-validator';
+import { IsOptional, IsNumber, IsString, IsEnum, IsDateString, Min, Max, MaxLength } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateExameUrinaDto {
   @ApiProperty({ example: 1, description: 'ID do Pokémon' })
   @IsNumber()
+  @Type(() => Number)
   pokemonId: number;
 
   @ApiPropertyOptional({ example: 1, description: 'ID do técnico responsável' })
   @IsOptional()
   @IsNumber()
+  @Type(() => Number)
   tecnicoId?: number;
 
   @ApiPropertyOptional({ example: 'Amarelo claro', description: 'Cor da urina' })
@@ -40,7 +42,7 @@ export class CreateExameUrinaDto {
     description: 'Status do exame'
   })
   @IsOptional()
-  @IsString()
+  @IsEnum(['Pendente', 'Em andamento', 'Concluído'])
   status?: 'Pendente' | 'Em andamento' | 'Concluído';
 
   @ApiPropertyOptional({ example: 'Valores dentro da normalidade', description: 'Observações sobre o exame' })
