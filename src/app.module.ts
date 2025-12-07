@@ -7,6 +7,7 @@ import { PokemonModule } from './pokemon/pokemon.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { PerfisModule } from './perfis/perfis.module';
 import { AuthModule } from './auth/auth.module';
+import { ExamesModule } from './exames/exames.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AuthModule } from './auth/auth.module';
     UsuariosModule,
     PerfisModule,
     AuthModule,
+    ExamesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
