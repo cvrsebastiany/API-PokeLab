@@ -26,11 +26,11 @@ export class CreatePokemonDto {
   trainerId: number;
 
   @ApiPropertyOptional({ 
-    enum: ['healthy', 'sick', 'in-treatment', 'recovered'],
-    example: 'healthy',
+    enum: ['Saudável', 'Doente', 'Em tratamento', 'Curado'],
+    example: 'Saudável',
     description: 'Status de saúde do Pokémon'
   })
-  status?: 'healthy' | 'sick' | 'in-treatment' | 'recovered';
+  status?: 'Saudável' | 'Doente' | 'Em tratamento' | 'Curado';
 
   @ApiPropertyOptional({ example: '2024-12-01T00:00:00Z', description: 'Data do último checkup' })
   lastCheckup?: Date;
