@@ -13,6 +13,16 @@ async function bootstrap() {
   // Enable cookie parser
   app.use(cookieParser());
   
+  // Enable global validation
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transformOptions: {
+      enableImplicitConversion: true,
+    },
+  }));
+  
   // Set global prefix for all routes
   app.setGlobalPrefix('pokelab-api');
   
