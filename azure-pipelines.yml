@@ -1,19 +1,94 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Node.js that uses React
 
 trigger:
-- main
+  branches:
+    include:
+      - main
+
+pr:
+  branches:
+    include:
+      - main
+  autoCancel: false
 
 pool:
-  vmImage: ubuntu-latest
+  name: linux-agent
+  demands:
+    - npm
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables:
+  - name: NODE_VERSION
+    value: "22.x"
+  - name: CI
+    value: false
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+  - stage: Build
+    displayName: Build and Test
+    jobs:
+      - job: Build_Job
+        displayName: "Build NEST.js Application"
+        steps:
+          - checkout: self
+            persistCredentials: true
+
+          - task: NodeTool@0
+            displayName: "Use Node.js $(NODE_VERSION)"
+            inputs:
+              versionSpec: $(NODE_VERSION)
+
+          - script: npm install
+            displayName: "Install dependencies"
+
+          - script: |
+              git config user.name "Pipeline service user"
+              git config user.email "pipeline.service@ufcspa.edu.br"
+            displayName: "Configure git"
+            condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) # Run only on CI push, not PR
+
+          - script: npm version patch -m "Version bump %s ***NO_CI***"
+            displayName: "Bump version"
+            condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) # Run only on CI push, not PR
+
+          - script: |
+              git push origin HEAD:main
+              git push --tags
+            displayName: "Push version bump"
+            condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) # Run only on CI push, not PR
+
+          - script: npm run build
+            displayName: "Build application"
+
+          - task: ArchiveFiles@2
+            displayName: "Archive build files"
+            inputs:
+              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/"
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip"
+              replaceExistingArchive: true
+              verbose: true
+
+  - stage: Deploy
+    displayName: "Deploy Application"
+    dependsOn: Build
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) # Run only on CI push, not PR
+    jobs:
+      - deployment: Deploy_to_Server
+        displayName: "Deploy to Server"
+        environment: "Producao-API PokéLab"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: none
+                - task: CopyFiles@2
+                  displayName: "Copia arquivos para o diretório /var/www/pokelab-api/"
+                  inputs:
+                    SourceFolder: "."
+                    Contents: "**"
+                    TargetFolder: "/var/www/pokelab-api/"
+                    CleanTargetFolder: true
+
+                - script: pm2 restart pokemon-lab
+                  displayName: "Restart PM2 application"
