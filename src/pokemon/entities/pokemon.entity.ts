@@ -36,11 +36,11 @@ export class Pokemon {
 
   @Column({
     type: 'enum',
-    enum: ['healthy', 'sick', 'in-treatment', 'recovered'],
-    default: 'healthy',
+    enum: ['Saudável', 'Doente', 'Em tratamento', 'Curado'],
+    default: 'Saudável',
     nullable: true,
   })
-  status?: 'healthy' | 'sick' | 'in-treatment' | 'recovered';
+  status?: 'Saudável' | 'Doente' | 'Em tratamento' | 'Curado';
 
   @Column({ type: 'timestamp', nullable: true })
   lastCheckup?: Date;
