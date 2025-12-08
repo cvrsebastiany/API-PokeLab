@@ -1,12 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { version } from '../package.json';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class AppService {
+  private getVersion(): string {
+    try {
+      const packageJson = JSON.parse(
+        readFileSync(join(process.cwd(), 'package.json'), 'utf8')
+      );
+      return packageJson.version;
+    } catch (error) {
+      return '0.0.0';
+    }
+  }
+
   getHello(): object {
     return {
       projeto: 'PokéLab',
-      versao: version,
+      versao: this.getVersion(),
       descricao: 'Projeto final da disciplina de Tópicos Especiais em Programação III - 2025/2',
       alunos: [
         {
