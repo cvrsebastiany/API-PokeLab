@@ -18,7 +18,6 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('usuarios')
 @Controller('usuarios')
-@UseGuards(JwtAuthGuard)
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
@@ -31,6 +30,7 @@ export class UsuariosController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Listar todos os usuários', description: 'Retorna uma lista com todos os usuários cadastrados' })
   @ApiResponse({ status: 200, description: 'Lista de usuários retornada com sucesso' })
   findAll() {
@@ -38,6 +38,7 @@ export class UsuariosController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Buscar usuário por ID', description: 'Retorna os dados de um usuário específico' })
   @ApiParam({ name: 'id', description: 'ID do usuário', example: 1 })
   @ApiResponse({ status: 200, description: 'Usuário encontrado' })
@@ -47,6 +48,7 @@ export class UsuariosController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Atualizar usuário', description: 'Atualiza os dados de um usuário existente' })
   @ApiParam({ name: 'id', description: 'ID do usuário', example: 1 })
   @ApiResponse({ status: 200, description: 'Usuário atualizado com sucesso' })
@@ -56,6 +58,7 @@ export class UsuariosController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Deletar usuário', description: 'Remove um usuário do sistema' })
   @ApiParam({ name: 'id', description: 'ID do usuário', example: 1 })
