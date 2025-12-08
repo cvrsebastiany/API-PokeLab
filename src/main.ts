@@ -31,8 +31,18 @@ async function bootstrap() {
 
   // Swagger/OpenAPI configuration
   const config = new DocumentBuilder()
-    .setTitle('PokeLab API')
-    .setDescription('API para gerenciamento de clínica Pokémon - Sistema de gestão de saúde e tratamento de Pokémon')
+    .setTitle('PokéLab API')
+    .setDescription(`API para gerenciamento de clínica Pokémon - Sistema de gestão de saúde e tratamento de Pokémon
+
+**Projeto final da disciplina de Tópicos Especiais em Programação III - 2025/2**
+
+**Alunos:**
+- Edgar Nicolas de Oliveira Silva (edgar.silva@ufcspa.edu.br)
+- Carlise Vitoria Reis Sebastiany (carlise.sebastiany@ufcspa.edu.br)
+- Handriel Scheffer (handriel.scheffer@ufcspa.edu.br)
+
+**Orientação:**
+- Muriel Figueredo Franco (muriel.franco@ufcspa.edu.br)`)
     .setVersion('1.0')
     .addTag('auth', 'Autenticação de usuários')
     .addTag('pokemon', 'Operações relacionadas aos Pokémon')
